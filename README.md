@@ -1,121 +1,206 @@
-# OwlEyes - Simple Monitoring Service
+<div align="center">
 
-A monitoring service similar to UptimeRobot that allows users to create projects and monitors for checking website availability and ping status.
+# 🦉 OwlEyes
 
-## Description
+### 🔍 Modern Web Service Monitoring Solution
 
-OwlEyes is a web application that lets you monitor the availability of websites and services. It provides a dashboard to visualize the status of your monitors and get alerted when something goes down.
+[![PHP](https://img.shields.io/badge/PHP-8.2-777BB4.svg?style=flat-square&logo=php)](https://php.net/)
+[![React](https://img.shields.io/badge/React-18-61DAFB.svg?style=flat-square&logo=react)](https://reactjs.org/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?style=flat-square&logo=docker)](https://www.docker.com/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
 
-### Features
+</div>
 
-- **Project Management**: Organize monitors into projects with labels, descriptions, and tags
-- **Monitor Types**:
-  - **Ping Monitors**: Check if a server is reachable via TCP connection
-  - **Website Monitors**: Check if a website is available and contains specific keywords
-- **Visualizations**:
-  - List view of monitor results
-  - Calendar view showing uptime percentage by day
-  - Graph view of response times
-- **APIs**:
-  - RESTful API for programmatic access
-  - GraphQL API for flexible queries
-- **Status Badges**: Embed monitor status badges in your documentation
+## ✨ Overview
 
-## Technology Stack
+OwlEyes is an elegant, self-hosted monitoring solution that keeps a vigilant eye on your websites and services. With an intuitive interface and powerful monitoring capabilities, OwlEyes helps you ensure maximum uptime and performance for your digital assets.
 
-- **Backend**:
-  - PHP 8.1 with Slim 4 Framework
-  - Doctrine ORM for database access
-  - PostgreSQL database
-  - Monolog for logging
-  - PHP-DI for dependency injection
-  - GraphQL with webonyx/graphql-php
-  
-- **Frontend**:
-  - React 18 with React Router
-  - Material UI for components
-  - Chart.js for data visualization
-  - FullCalendar for calendar view
-  - React Query for data fetching
-  
-- **Infrastructure**:
-  - Docker and Docker Compose for containerization
-  - Nginx as web server
+<p align="center">
+  <img src="https://via.placeholder.com/800x400?text=OwlEyes+Dashboard" alt="OwlEyes Dashboard" width="80%"/>
+</p>
 
-## Installation
+## ⚡ Key Features
 
-1. Clone the repository:
+- 🔍 **Comprehensive Monitoring**
+  - 🌐 Website availability & content verification
+  - 🔄 TCP/Ping service checks
+  - ⏱️ Response time tracking
+
+- 📊 **Insightful Visualizations**
+  - 📋 Clean list view of monitor results
+  - 📅 Calendar view showing uptime percentage by day
+  - 📈 Interactive performance graphs 
+
+- 🔧 **Flexible Organization**
+  - 📁 Group monitors into logical projects
+  - 🏷️ Tag-based filtering and organization
+  - 📝 Detailed descriptions and documentation
+
+- 🛠️ **Developer-Friendly**
+  - 🔌 RESTful API for integration
+  - 🧩 GraphQL support for flexible queries
+  - 🔖 Embeddable status badges for your documentation
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- 🐳 [Docker](https://www.docker.com/get-started) and Docker Compose
+- 🧰 Git
+
+### Installation
+
+1. **Clone the repository**
 
 ```bash
-git clone https://github.com/martinlejko/OwlEyes.git .
+git clone https://github.com/martinlejko/OwlEyes.git
+cd OwlEyes
 ```
 
-2. Run the setup script:
+2. **Create your environment configuration**
+
+```bash
+cp .env.example .env
+# Edit .env with your preferred settings
+```
+
+3. **Run the setup script**
 
 ```bash
 chmod +x setup.sh
 ./setup.sh
 ```
 
-3. Start the application:
+4. **Start the application**
 
 ```bash
 docker compose up -d
 ```
 
-4. The application will be available at:
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:8080
+5. **Access the application**
+   - 🖥️ **Frontend**: [http://localhost:3000](http://localhost:3000)
+   - 🔌 **Backend API**: [http://localhost:8080](http://localhost:8080)
+   - 📚 **API Documentation**: [http://localhost:8080/docs](http://localhost:8080/docs)
 
-## Usage
+## 📖 Usage Guide
 
 ### Creating a Project
 
 1. Navigate to the Projects page
-2. Click "Add Project"
-3. Enter project details (label, description, tags)
-4. Submit the form
+2. Click the ➕ button to add a new project
+3. Enter project details:
+   - 📝 Label (name of your project)
+   - 📄 Description (what you're monitoring)
+   - 🏷️ Tags (for organization)
+4. Save your new project
 
 ### Adding a Monitor
 
 1. Open a project
-2. Click "Add Monitor"
-3. Select the monitor type (ping or website)
-4. Configure the monitor settings
-   - For ping monitors: host and port
-   - For website monitors: URL, status check, keywords
-5. Set the monitoring interval (5-300 seconds)
-6. Submit the form
+2. Click the "Add Monitor" button
+3. Select the monitor type:
+   - 🌐 **Website Monitor**: Checks if a website is available and contains specific keywords
+   - 🔄 **Ping Monitor**: Checks if a server is reachable via TCP connection
+4. Configure settings:
+   - 🔗 URL or host/port to monitor
+   - ⏱️ Check frequency (5-300 seconds)
+   - 🔍 Content verification keywords (for websites)
+5. Save your new monitor
 
 ### Viewing Monitor Status
 
-1. Open a monitor from the project page
-2. View the status in different visualization modes:
-   - List view: Shows a paginated list of status checks
-   - Calendar view: Shows status by day with color coding
-   - Graph view: Shows response time trends
+Explore your monitoring data through multiple views:
+
+- 📋 **List View**: Chronological history of status checks
+- 📅 **Calendar View**: Color-coded uptime calendar
+- 📈 **Graph View**: Performance trends over time
 
 ### Using Status Badges
 
-Each monitor has a badge URL that you can embed in your documentation:
+Add live status indicators to your documentation or website:
 
-```
+```markdown
 ![Monitor Status](http://localhost:8080/api/v1/monitors/{id}/badge)
 ```
 
-## API Documentation
+## 🏗️ Architecture
 
-- REST API documentation is available at: http://localhost:8080/docs
-- GraphQL API is accessible at: http://localhost:8080/graphql
+OwlEyes follows a modern microservices architecture with containerized components:
 
-## License
+### Backend Stack
 
-This project is open source, available under the MIT license.
+- 🔧 **PHP 8.2** with Slim 4 Framework
+- 🗃️ **Doctrine ORM** for database access
+- 💾 **MySQL** database
+- 📝 **Monolog** for logging
+- 🧩 **PHP-DI** for dependency injection
+- 🔌 **GraphQL** with webonyx/graphql-php
 
-## Acknowledgements
+### Frontend Stack
 
-- [Slim Framework](https://www.slimframework.com/)
-- [Doctrine ORM](https://www.doctrine-project.org/)
-- [React](https://reactjs.org/)
-- [Material UI](https://mui.com/)
-- [Vite](https://vitejs.dev/)
+- ⚛️ **React 18** with React Router
+- 🎨 **Material UI** for responsive components
+- 📊 **Chart.js** for data visualization
+- 📅 **FullCalendar** for calendar view
+
+### Infrastructure
+
+- 🐳 **Docker** and Docker Compose for containerization
+- 🌐 **Nginx** as web server
+
+## 🧪 Development
+
+### Backend Development
+
+```bash
+# Start only backend services
+docker compose up -d backend db
+
+# Run PHP code style checks
+docker compose exec backend composer cs-check
+
+# Run tests
+docker compose exec backend composer test
+```
+
+### Frontend Development
+
+```bash
+# Start frontend in development mode
+docker compose up -d frontend
+
+# Or run locally with npm
+cd frontend
+npm install
+npm run dev
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgements
+
+- [Slim Framework](https://www.slimframework.com/) - PHP micro framework
+- [Doctrine ORM](https://www.doctrine-project.org/) - Object-relational mapper
+- [React](https://reactjs.org/) - Frontend library
+- [Material UI](https://mui.com/) - React component library
+- [Vite](https://vitejs.dev/) - Frontend build tool
+
+---
+
+<div align="center">
+
+Made with ❤️ by [Martin Lejko](https://github.com/martinlejko)
+
+</div>
