@@ -1,0 +1,35 @@
+# Environment files
+.env
+.env.*
+!.env.example
+
+# PHP/Composer
+/backend/vendor/
+/backend/.env
+/backend/var/logs/*
+/backend/var/cache/*
+/backend/composer.lock
+
+# Node.js
+/frontend/node_modules/
+/frontend/.env
+/frontend/dist/
+/frontend/.cache/
+/frontend/package-lock.json
+
+# IDE files
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+.DS_Store
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Logs
+*.log
+
+# Keep directories with .gitkeep
+!.gitkeep 
