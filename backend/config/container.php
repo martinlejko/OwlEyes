@@ -62,11 +62,13 @@ return [
 
     // Repositories
     ProjectRepository::class => function (ContainerInterface $container) {
-        return $container->get(EntityManagerInterface::class)->getRepository(App\Entity\Project::class);
+        $entityManager = $container->get(EntityManagerInterface::class);
+        return new ProjectRepository($entityManager);
     },
 
     MonitorRepository::class => function (ContainerInterface $container) {
-        return $container->get(EntityManagerInterface::class)->getRepository(App\Entity\Monitor::class);
+        $entityManager = $container->get(EntityManagerInterface::class);
+        return new MonitorRepository($entityManager);
     },
 
     // Services

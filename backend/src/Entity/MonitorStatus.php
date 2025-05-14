@@ -19,7 +19,7 @@ class MonitorStatus
     #[ORM\JoinColumn(nullable: false)]
     private Monitor $monitor;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(name: 'start_time', type: 'datetime')]
     private \DateTimeInterface $startTime;
 
     #[ORM\Column(type: 'boolean')]

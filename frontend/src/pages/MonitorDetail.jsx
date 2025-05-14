@@ -21,7 +21,14 @@ import {
   TableRow,
   Chip,
   IconButton,
-  Tooltip
+  Tooltip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Alert,
+  Snackbar
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -37,6 +44,12 @@ function MonitorDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [tabValue, setTabValue] = useState(0);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [notification, setNotification] = useState({
+    open: false,
+    message: '',
+    severity: 'success'
+  });
 
   useEffect(() => {
     // Mock data for now - would be replaced with actual API call
@@ -130,6 +143,67 @@ function MonitorDetail() {
     setTabValue(newValue);
   };
 
+  const handleDeleteClick = () => {
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteDialogOpen(false);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      setDeleteDialogOpen(false);
+      
+      console.log(`Attempting to delete monitor with ID: ${id}`);
+      
+      // Call the API to delete the monitor
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/v1/monitors/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log(`Delete API response status: ${response.status}`);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`Error response body: ${errorText}`);
+        throw new Error(`Failed to delete monitor: ${response.statusText}`);
+      }
+
+      const responseData = await response.json();
+      console.log('Delete API response data:', responseData);
+
+      // Show success notification
+      setNotification({
+        open: true,
+        message: 'Monitor deleted successfully',
+        severity: 'success'
+      });
+
+      // Navigate back to the project page after a short delay
+      setTimeout(() => {
+        navigate(`/projects/${monitor.projectId}`);
+      }, 1500);
+
+    } catch (err) {
+      console.error('Error deleting monitor:', err);
+      
+      // Show error notification
+      setNotification({
+        open: true,
+        message: err.message || 'Error deleting monitor',
+        severity: 'error'
+      });
+    }
+  };
+
+  const handleNotificationClose = () => {
+    setNotification(prev => ({ ...prev, open: false }));
+  };
+
   if (loading) {
     return (
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }} className="page-content">
@@ -153,6 +227,7 @@ function MonitorDetail() {
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }} className="page-content">
       <Button 
+        variant="outlined" 
         startIcon={<ArrowBackIcon />} 
         component={Link} 
         to={`/projects/${monitor.projectId}`}
@@ -193,13 +268,53 @@ function MonitorDetail() {
               <EditIcon />
             </Tooltip>
           </IconButton>
-          <IconButton color="error">
+          <IconButton color="error" onClick={handleDeleteClick}>
             <Tooltip title="Delete Monitor">
               <DeleteIcon />
             </Tooltip>
           </IconButton>
         </Box>
       </Box>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={handleDeleteCancel}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          Confirm Monitor Deletion
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete the monitor "{monitor?.label}"? 
+            This action cannot be undone, and all associated check history will also be deleted.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDeleteCancel}>Cancel</Button>
+          <Button onClick={handleDeleteConfirm} color="error" autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Notification Snackbar */}
+      <Snackbar 
+        open={notification.open} 
+        autoHideDuration={6000} 
+        onClose={handleNotificationClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert 
+          onClose={handleNotificationClose} 
+          severity={notification.severity} 
+          sx={{ width: '100%' }}
+        >
+          {notification.message}
+        </Alert>
+      </Snackbar>
 
       <Grid container spacing={3} sx={{ mb: 3 }}>
         <Grid item xs={12} md={6}>
